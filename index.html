@@ -224,12 +224,6 @@
             </div>
 
 
-
-            <button id="btn-gerar">Gerar QR Code</button>
-
-            <div id="qrcode-container" style="margin-top:20px;"></div>
-
-
             
         </div>
     </div>
@@ -282,56 +276,6 @@
 }
 
 
-
-function gerarQRCodePix() {
-    const chavePix = "davi100msn@gmail.com"; // sua chave Pix
-    const nome = "Delisil"; // nome ou empresa
-    const cidade = "Rio de Janeiro"; // cidade
-    
-    // Payload simples do Pix (sem valor fixo)
-    const pixPayload = `00020126480014BR.GOV.BCB.PIX0114${chavePix}52040000530398654041.505802BR5911${nome}6009${cidade}62070503***6304`;
-    
-    const container = document.getElementById("qrcode-container");
-    container.innerHTML = ""; // Limpa QR Code antigo
-    
-    // Gera o QR Code
-    const qrCode = new QRCode(container, {
-        text: pixPayload,
-        width: 200,
-        height: 200,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-    });
-}
-
-
-
-
-
- const baseUrl = 'https://chart.googleapis.com/chart?';
-    const button = document.getElementById('btn-gerar');
-    const container = document.getElementById('qrcode-container');
-
-    // Texto fixo que será codificado no QR Code
-    const textoFixo = 'davi100msn@gmail.com';  // Aqui coloque o texto que quiser!
-
-    button.addEventListener('click', function () {
-      const value = encodeURIComponent(textoFixo);
-
-      const size = '250x250';
-      const url = `${baseUrl}cht=qr&chs=${size}&chl=${value}`;
-
-      container.innerHTML = '';  // Limpa QR Code anterior
-
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = 'QR Code';
-      img.width = 250;
-      img.height = 250;
-
-      container.appendChild(img);
-    });
 </script>
 </body>
 </html>
