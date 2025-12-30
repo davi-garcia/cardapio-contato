@@ -191,12 +191,6 @@
                 <span>Avalie no Google</span>
             </a>
 
-            <a href="#" onclick="gerarPix()" class="link-card">
-                <i class="ph ph-qr-code"></i>
-                <span>PIX QR Code</span>
-            </a>
-            <img id="pixQR" style="display:none">
-
             <a href="https://www.facebook.com/davi.ogarcia" class="link-card">
                 <i class="ph ph-facebook-logo"></i>
                 <span>Facebook</span>
@@ -268,22 +262,6 @@ END:VCARD`;
     }).catch(err => {
         console.error('Erro ao copiar: ', err);
     });
-}
-
-function gerarPix() {
-  const chavePix = "21968439249";
-  const valor = ""; // deixe vazio para valor livre
-  const descricao = "Pagamento";
-
-  const url =
-    "https://pixqr.com.br/api/qr.php" +
-    "?chave=" + encodeURIComponent(chavePix) +
-    "&valor=" + encodeURIComponent(valor) +
-    "&descricao=" + encodeURIComponent(descricao);
-
-  const img = document.getElementById("pixQR");
-  img.src = url;
-  img.style.display = "block";
 }
 
 </script>
