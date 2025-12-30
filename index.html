@@ -156,21 +156,22 @@
             }
         }
 
-        /* Estilo do Pop-up do Wi-Fi */
-        .modal {
-            display: none; position: fixed; z-index: 100; left: 0; top: 0;
-            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
-            align-items: center; justify-content: center;
+        /* Estilos específicos para os botões na seção de header */
+        .btn-header {
+            display: block;          /* Faz o botão ocupar a linha toda, jogando o próximo para baixo */
+            max-width: 240px;        /* Define uma largura máxima para não ficar largo demais */
+            margin: 20px auto;       /* 10px é o espaço entre eles, 'auto' centraliza o botão */
+            padding: 10px 30px;      /* Ajusta o respiro interno do botão */
+            font-size: 15px;         /* Ajusta o tamanho da fonte se necessário */
+            margin-top: -15px;       /* Ajusta a margem superior para aproximar do texto acima */
 }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 20px;
-            text-align: center; color: #333; width: 80%; max-width: 300px;
+
+        /* Remove a margem de baixo do último botão para não empurrar os links de baixo */
+            .btn-header:last-of-type {
+            margin-bottom: 25px;
 }
-        #qrcode { margin: 20px auto; display: flex; justify-content: center; }
-        .close-btn {
-            background: #2d0a4e; color: white; border: none;
-            padding: 10px 20px; border-radius: 10px; margin-top: 15px; cursor: pointer;
-}
+
+
     </style>
 </head>
 <body>
@@ -182,28 +183,38 @@
             </div>
             <h1>Delisil</h1>
             <p>A Doceria 01 da cidade!</p>
-            <a href="javascript:void(0)" id="downloadVCard" class="btn-main">Salvar na agenda</a>
+            <a href="javascript:void(0)" id="downloadVCard" class="btn-main btn-header">📒 Salvar na agenda</a>
+            <a href="tel:5521968439249" class="btn-main btn-header">📞 Ligar</a>
         </div>
 
         <div class="links-list">
-            <a href="https://g.page/r/CcLV16_qj79jEAE/review" class="link-card">
+            <a href="https://maps.app.goo.gl/tuynE21oZ9jkgagB6" target="_blank" class="link-card">
+                <i class="ph ph-map-pin"></i>
+                <span>Nossa Loja</span>
+            </a>
+
+            <a href="https://g.page/r/CcLV16_qj79jEAE/review" target="_blank" class="link-card">
                 <i class="ph ph-google-logo"></i>
                 <span>Avalie no Google</span>
             </a>
 
-            <a href="https://www.facebook.com/davi.ogarcia" class="link-card">
+            <a href="https://www.facebook.com/davi.ogarcia" target="_blank" class="link-card">
                 <i class="ph ph-facebook-logo"></i>
                 <span>Facebook</span>
             </a>
 
-            <a href="https://www.instagram.com/davi.ogarcia" class="link-card">
+            <a href="https://www.instagram.com/davi.ogarcia" target="_blank" class="link-card">
                 <i class="ph ph-instagram-logo"></i>
                 <span>Instagram</span>
             </a>
 
-            <a href="https://wa.me/5521968439249" class="link-card">
+            <a href="https://wa.me/5521968439249" target="_blank" class="link-card">
                 <i class="ph ph-whatsapp-logo"></i>
                 <span>WhatsApp</span>
+            </a>
+
+            <a href="https://docs.google.com/document/d/e/2PACX-1vTQSd0gWhcJtZ6rBq67Pp9DG4zTLON-yZdedZzJ6zTvHqejWanJJF8HZ658qcr0NnK9_525hZmw8leQ/pub" target="_blank" class="link-card">
+                <i class="ph ph-wifi-high"></i><span>Conectar no Wi-Fi</span>
             </a>
 
             <div class="link-card" style="cursor:pointer" onclick="copiarPix()">
@@ -212,10 +223,14 @@
                 <small id="status-pix" style="font-size: 10px; margin-left: 10px; color: #4caf50; display: none;">Copiado!</small>
             </div>
 
-            <div class="link-card" style="cursor:pointer" onclick="openWifi()">
-            <i class="ph ph-wifi-high"></i>
-            <span>Conectar no Wi-Fi</span>
-</div>
+
+
+            <button id="btn-gerar">Gerar QR Code</button>
+
+            <div id="qrcode-container" style="margin-top:20px;"></div>
+
+
+            
         </div>
     </div>
     <script>
@@ -225,17 +240,19 @@
             name: "Delisil",
             phone: "+5521968439249",
             email: "davi100msn@gmail.com",
+            site: "https://davi-garcia.github.io/cardapio-contato/",
             address: "Rua Ernesto Cardoso, 975, Rio de Janeiro - RJ" // Endereço aleatório
         };
 
         // Estrutura do arquivo vCard (vcf)
         const vcard = `BEGIN:VCARD
-VERSION:3.0
-FN:${contact.name}
-TEL;TYPE=CELL,VOICE:${contact.phone}
-EMAIL;TYPE=PREF,INTERNET:${contact.email}
-ADR;TYPE=WORK:;;${contact.address};;;;
-END:VCARD`;
+        VERSION:3.0
+        FN:${contact.name}
+        TEL;TYPE=CELL,VOICE:${contact.phone}
+        EMAIL;TYPE=PREF,INTERNET:${contact.email}
+        URL:${contact.site}
+        ADR;TYPE=WORK:;;${contact.address};;;;
+        END:VCARD`;
 
         // Cria o arquivo e dispara o download
         const blob = new Blob([vcard], { type: "text/vcard" });
@@ -264,15 +281,57 @@ END:VCARD`;
     });
 }
 
-</script>
-<div id="wifiModal" class="modal">
-    <div class="modal-content">
-        <h3 style="margin-top:0">Conectar ao Wi-Fi</h3>
-        <div id="qrcode"></div>
-        <p style="color:#666; font-size:14px">Rede: <b>Garcia</b><br>Senha: <b>Dg240825</b></p>
-        <button class="close-btn" onclick="closeWifi()">Fechar</button>
-    </div>
-</div>
 
+
+function gerarQRCodePix() {
+    const chavePix = "davi100msn@gmail.com"; // sua chave Pix
+    const nome = "Delisil"; // nome ou empresa
+    const cidade = "Rio de Janeiro"; // cidade
+    
+    // Payload simples do Pix (sem valor fixo)
+    const pixPayload = `00020126480014BR.GOV.BCB.PIX0114${chavePix}52040000530398654041.505802BR5911${nome}6009${cidade}62070503***6304`;
+    
+    const container = document.getElementById("qrcode-container");
+    container.innerHTML = ""; // Limpa QR Code antigo
+    
+    // Gera o QR Code
+    const qrCode = new QRCode(container, {
+        text: pixPayload,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+}
+
+
+
+
+
+ const baseUrl = 'https://chart.googleapis.com/chart?';
+    const button = document.getElementById('btn-gerar');
+    const container = document.getElementById('qrcode-container');
+
+    // Texto fixo que será codificado no QR Code
+    const textoFixo = 'davi100msn@gmail.com';  // Aqui coloque o texto que quiser!
+
+    button.addEventListener('click', function () {
+      const value = encodeURIComponent(textoFixo);
+
+      const size = '250x250';
+      const url = `${baseUrl}cht=qr&chs=${size}&chl=${value}`;
+
+      container.innerHTML = '';  // Limpa QR Code anterior
+
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = 'QR Code';
+      img.width = 250;
+      img.height = 250;
+
+      container.appendChild(img);
+    });
+</script>
 </body>
 </html>
