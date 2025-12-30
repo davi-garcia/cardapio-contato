@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delisil - Doceria</title>
@@ -137,6 +138,22 @@
                 margin: 20px;
             }
         }
+
+        /* Estilo do Pop-up do Wi-Fi */
+        .modal {
+            display: none; position: fixed; z-index: 100; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            align-items: center; justify-content: center;
+}
+        .modal-content {
+            background: white; padding: 30px; border-radius: 20px;
+            text-align: center; color: #333; width: 80%; max-width: 300px;
+}
+        #qrcode { margin: 20px auto; display: flex; justify-content: center; }
+        .close-btn {
+            background: #2d0a4e; color: white; border: none;
+            padding: 10px 20px; border-radius: 10px; margin-top: 15px; cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -183,10 +200,10 @@
                 <i class="ph ph-copy copy-icon"></i>
             </a>
 
-            <a href="WIFI:S:Garcia;T:WPA;P:Dg240825;;" class="link-card" id="wifi-btn">
-                <i class="ph ph-wifi-high"></i>
-                <span>Wi-Fi</span>
-             </a>
+            <div class="link-card" style="cursor:pointer" onclick="openWifi()">
+            <i class="ph ph-wifi-high"></i>
+            <span>Conectar no Wi-Fi</span>
+</div>
         </div>
     </div>
     <script>
@@ -218,5 +235,14 @@ END:VCARD`;
         window.URL.revokeObjectURL(url);
     });
 </script>
+<div id="wifiModal" class="modal">
+    <div class="modal-content">
+        <h3 style="margin-top:0">Conectar ao Wi-Fi</h3>
+        <div id="qrcode"></div>
+        <p style="color:#666; font-size:14px">Rede: <b>Garcia</b><br>Senha: <b>Dg240825</b></p>
+        <button class="close-btn" onclick="closeWifi()">Fechar</button>
+    </div>
+</div>
+
 </body>
 </html>
