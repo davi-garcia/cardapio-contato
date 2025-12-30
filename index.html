@@ -224,6 +224,12 @@
             </div>
 
 
+            <a href="javascript:void(0)" id="showImageBtn" class="btn-main btn-header">🖼️ Ver Imagem</a>
+
+            <div id="imageContainer" style="display:none; margin-top:20px; text-align:center;">
+            <img id="dynamicImage" src="img/" alt="Imagem Exemplo" style="max-width:100%; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+            </div>
+
             
         </div>
     </div>
@@ -275,6 +281,15 @@
     });
 }
 
+document.getElementById('showImageBtn').addEventListener('click', function() {
+    const container = document.getElementById('imageContainer');
+    if (container.style.display === "none" || container.style.display === "") {
+        container.style.display = "block"; // Mostra a imagem
+        container.scrollIntoView({ behavior: "smooth" }); // Rola a página para a imagem
+    } else {
+        container.style.display = "none"; // Esconde a imagem
+    }
+});
 
 </script>
 </body>
